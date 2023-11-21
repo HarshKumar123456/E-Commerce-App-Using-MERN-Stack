@@ -1,4 +1,5 @@
 import express from "express";
+import { registerController } from "../controllers/authControllers.js";
 
 // Router to access Authorisation related routes
 const authRouter = express.Router();
@@ -6,11 +7,11 @@ const authRouter = express.Router();
 // Routes
 
 /**
- * @authRouter /auth/register
+ * @authRouter /api/v1/auth/register
  * @description Register user
  * @access public
  */
-authRouter.get("/register");
+authRouter.get("/register",registerController);
 
 
 // Exporting Router
