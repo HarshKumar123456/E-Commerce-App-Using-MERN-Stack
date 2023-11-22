@@ -11,7 +11,7 @@ const authRouter = express.Router();
  * @description Register user
  * @access public
  */
-authRouter.get("/register",registerController);
+authRouter.post("/register",registerController);
 
 
 // Exporting Router
