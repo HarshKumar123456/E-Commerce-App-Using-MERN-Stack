@@ -133,4 +133,8 @@ const loginController = async (req, res) => {
     }
 };
 
-export { registerController,loginController };
+const protectedController = async (req,res) => {
+    res.status(200).json({message: "protected route accessed successfully...."});
+};
+
+export { registerController,loginController,protectedController };
