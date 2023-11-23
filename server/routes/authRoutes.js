@@ -1,6 +1,6 @@
 import express from "express";
 import { registerController,loginController, protectedController } from "../controllers/authControllers.js";
-import { isRegisteredUserTokenIsPresentMiddleware } from "../middlewares/authMiddleware.js";
+import { checkIfAdminMiddleware, isRegisteredUserTokenIsPresentMiddleware } from "../middlewares/authMiddleware.js";
 
 // Router to access Authorisation related routes
 const authRouter = express.Router();
@@ -27,7 +27,7 @@ authRouter.post("/login",loginController);
  * @description Login user
  * @access protected
  */
-authRouter.get("/protected-route",isRegisteredUserTokenIsPresentMiddleware,protectedController);
+authRouter.get("/protected-route",isRegisteredUserTokenIsPresentMiddleware,checkIfAdminMiddleware,protectedController);
 
 // Exporting Router
 export default authRouter;
