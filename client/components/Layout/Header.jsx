@@ -25,7 +25,7 @@ const Header = () => {
                                 <NavLink to="/login" className="nav-link" >Login</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/policy" className="nav-link" >Cart ({0})</NavLink>
+                                <NavLink to="/cart" className="nav-link" >Cart ({0})</NavLink>
                             </li>
                         </ul>
                     </div>
