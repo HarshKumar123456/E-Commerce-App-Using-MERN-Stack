@@ -8,6 +8,7 @@ const Layout = (props) => {
         <>
         <ToastContainer />
         <Header />
+        <ToastContainer />
         <main> 
         This is Layout....
         {props.children}
