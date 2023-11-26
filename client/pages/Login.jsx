@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const initialUserData = {
-        name: "",
+        email: "",
         password: "",
     };
     const [userData, setUserData] = useState(initialUserData);
