@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout/Layout";
 
+import axios from "axios";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Register = () => {
     const initialUserData = {
         name: "",
@@ -13,6 +18,25 @@ const Register = () => {
     async function handleSubmit(event) {
         event.preventDefault();
         console.log(userData);
+
+        try {
+            const response = await axios.post(`http://localhost:8000/api/v1/auth/register`,userData);
+            console.log(response.data);
+
+            if(response.data.success){
+                console.log("Toast kha lo");
+                toast.success("Congrats!! You are registered now....");
+                toast.error(`${response.data.message}`);
+            }
+            else{
+                toast.error(`${response.data.message}`);
+            }
+            
+        } catch (error) {
+            console.error(error);
+            toast.error(`${error.message}`);
+        }
+
     }
 
     function handleChange(event) {
@@ -25,7 +49,6 @@ const Register = () => {
 
     return <>
         <Layout>
-
             <div className="form-signin w-75 m-auto">
                 <form onSubmit={handleSubmit}>
                     <img width="64" height="64" src="https://img.icons8.com/arcade/64/key.png" alt="key" />
