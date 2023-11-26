@@ -6,7 +6,11 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useAuth } from "../context/auth";
+
 const Register = () => {
+    const [auth,setAuth] = useAuth();
+
     const initialUserData = {
         name: "",
         email: "",
@@ -27,14 +31,20 @@ const Register = () => {
                 console.log("Toast kha lo");
                 toast.success("Congrats!! You are registered now....");
                 toast.error(`${response.data.message}`);
+                setAuth({...auth,user: response.data.user,token: response.data.token});
+                localStorage.setItem("auth",JSON.stringify(response.data));
             }
             else{
                 toast.error(`${response.data.message}`);
+                setAuth({...auth,user: null,token: ""});
+                localStorage.removeItem("auth");
             }
             
         } catch (error) {
             console.error(error);
             toast.error(`${error.message}`);
+            setAuth({...auth,user: null,token: ""});
+                localStorage.removeItem("auth");
         }
 
     }
