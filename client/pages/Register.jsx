@@ -7,9 +7,12 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAuth } from "../context/auth";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const [auth,setAuth] = useAuth();
+    const navigate = useNavigate();
+
+    const [auth, setAuth] = useAuth();
 
     const initialUserData = {
         name: "",
@@ -24,27 +27,36 @@ const Register = () => {
         console.log(userData);
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth/register`,userData);
+            const response = await axios.post(`http://localhost:8000/api/v1/auth/register`, userData);
             console.log(response.data);
 
-            if(response.data.success){
+            if (response.data.success) {
                 console.log("Toast kha lo");
                 toast.success("Congrats!! You are registered now....");
                 toast.error(`${response.data.message}`);
-                setAuth({...auth,user: response.data.user,token: response.data.token});
-                localStorage.setItem("auth",JSON.stringify(response.data));
+                setAuth({ ...auth, user: response.data.user, token: response.data.token });
+                localStorage.setItem("auth", JSON.stringify(response.data));
+                setTimeout(() => {
+                    navigate("/");
+                }, 5000);
             }
-            else{
+            else {
                 toast.error(`${response.data.message}`);
-                setAuth({...auth,user: null,token: ""});
+                setAuth({ ...auth, user: null, token: "" });
                 localStorage.removeItem("auth");
+                setTimeout(() => {
+                    navigate("/register");
+                }, 5000);
             }
-            
+
         } catch (error) {
             console.error(error);
             toast.error(`${error.message}`);
-            setAuth({...auth,user: null,token: ""});
-                localStorage.removeItem("auth");
+            setAuth({ ...auth, user: null, token: "" });
+            localStorage.removeItem("auth");
+            setTimeout(() => {
+                navigate("/register");
+            }, 5000);
         }
 
     }

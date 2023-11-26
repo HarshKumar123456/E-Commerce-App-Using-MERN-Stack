@@ -7,8 +7,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAuth } from "../context/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [auth,setAuth] = useAuth();
 
     const initialUserData = {
@@ -30,11 +33,17 @@ const Login = () => {
                 toast.error(`${response.data.message}`);
                 setAuth({...auth,user: response.data.user,token: response.data.token});
                 localStorage.setItem("auth",JSON.stringify(response.data));
+                setTimeout(() => {
+                    navigate("/");
+                },5000);
             }
             else {
                 toast.error(`${response.data.message}`);
                 setAuth({...auth,user: null,token: ""});
                 localStorage.removeItem("auth");
+                setTimeout(() => {
+                    navigate("/login");
+                },5000);
             }
 
         } catch (error) {
@@ -42,6 +51,9 @@ const Login = () => {
             toast.error(`${error.message}`);
             setAuth({...auth,user: null,token: ""});
             localStorage.removeItem("auth");
+            setTimeout(() => {
+                navigate("/login");
+            },5000);
         }
 
     }
