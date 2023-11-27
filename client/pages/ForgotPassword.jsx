@@ -6,54 +6,47 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useAuth } from "../context/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const ForgotPassword = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [auth,setAuth] = useAuth();
-
     const initialUserData = {
         email: "",
-        password: "",
+        newPassword: "",
+        securityQuestionKaAnswer: "",
     };
     const [userData, setUserData] = useState(initialUserData);
+
     async function handleSubmit(event) {
         event.preventDefault();
         console.log(userData);
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth/login`, userData);
+            const response = await axios.post(`http://localhost:8000/api/v1/auth/forgot-password`, userData);
             console.log(response.data);
 
             if (response.data.success) {
                 console.log("Toast kha lo");
-                toast.success("Congrats!! You are Logged in now....");
+                toast.success("Congrats!! Your password has been changed....");
                 toast.error(`${response.data.message}`);
-                setAuth({...auth,user: response.data.user,token: response.data.token});
-                localStorage.setItem("auth",JSON.stringify(response.data));
                 setTimeout(() => {
-                    navigate(location.state || "/");
+                    navigate("/login");
                 },2000);
             }
             else {
                 toast.error(`${response.data.message}`);
-                setAuth({...auth,user: null,token: ""});
-                localStorage.removeItem("auth");
                 setTimeout(() => {
-                    navigate("/login");
+                    navigate("/forgot-password");
                 },2000);
             }
 
         } catch (error) {
             console.error(error);
             toast.error(`${error.message}`);
-            setAuth({...auth,user: null,token: ""});
-            localStorage.removeItem("auth");
             setTimeout(() => {
-                navigate("/login");
+                navigate("/forgot-password");
             },2000);
         }
 
@@ -72,7 +65,7 @@ const Login = () => {
             <div className="form-signin w-75 m-auto">
                 <form onSubmit={handleSubmit}>
                     <img width="64" height="64" src="https://img.icons8.com/arcade/64/key.png" alt="key" />
-                    <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+                    <h1 className="h3 mb-3 fw-normal">Reset Password</h1>
 
 
                     <div className="form-floating">
@@ -81,14 +74,19 @@ const Login = () => {
                     </div>
 
                     <div className="form-floating">
-                        <input required name="password" value={userData.password} onChange={handleChange} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
-                        <label htmlFor="floatingPassword">Password</label>
+                        <input required name="securityQuestionKaAnswer" value={userData.securityQuestionKaAnswer} onChange={handleChange} type="text" className="form-control" id="floatingSecurityQuestion" placeholder="Favourite like Code,Coding etc." />
+                        <label htmlFor="floatingSecurityQuestion">Security Question's Answer</label>
+                    </div>
+
+                    <div className="form-floating">
+                        <input required name="newPassword" value={userData.newPassword} onChange={handleChange} type="password" className="form-control" id="floatingPassword" placeholder="New Password" />
+                        <label htmlFor="floatingNewPassword">New Password</label>
                     </div>
 
 
 
-                    <Link to={"/forgot-password"} className="btn btn-outline-primary w-50 py-2">Forgot Password</Link>
-                    <button className="btn btn-outline-success w-50 py-2" type="submit">Sign In</button>
+                    <Link to={"/login"} className="btn btn-outline-primary w-50 py-2" >Login</Link>
+                    <button className="btn btn-outline-success w-50 py-2" type="submit">Change Password</button>
                     <p className="mt-5 mb-3 text-body-secondary">© 2004–{new Date().getFullYear()}</p>
                 </form>
             </div>
@@ -96,4 +94,4 @@ const Login = () => {
     </>;
 };
 
-export default Login;
+export default ForgotPassword;

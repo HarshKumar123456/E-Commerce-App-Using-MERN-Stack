@@ -9,7 +9,7 @@ const registerController = async (req, res) => {
 
     try {
         // Extracting information from req.body
-        const { name, email, password, phone, address } = req.body;
+        const { name, email, password,securityQuestionKaAnswer, phone, address } = req.body;
 
         // Checking if all things are given 
         if (!name) {
@@ -20,6 +20,9 @@ const registerController = async (req, res) => {
         }
         if (!password) {
             return res.send({ message: "Password is required...." });
+        }
+        if (!securityQuestionKaAnswer) {
+            return res.send({ message: "Security Question's answer is required...." });
         }
         if (!phone) {
             return res.send({ message: "Phone is required...." });
@@ -56,7 +59,7 @@ const registerController = async (req, res) => {
         const hashedPassword = await hashPassword(password);
 
         // Saving User Details in MongoDB Databasse
-        const user = await new User({ name, email, password: hashedPassword, phone, address }).save();
+        const user = await new User({ name, email, password: hashedPassword,securityQuestionKaAnswer, phone, address }).save();
 
         // Creating Json Web Token for authorised User
         const token = await JWT.sign({ _id: user._id }, process.env.JSON_WEB_TOKEN_SECRET, { expiresIn: "7d" });
@@ -153,8 +156,44 @@ const loginController = async (req, res) => {
     }
 };
 
+const forgotPasswordController = async (req, res) => {
+    // Getting Details of user from req.body
+    const { email, newPassword, securityQuestionKaAnswer } = req.body;
+
+    // Checking if the user with email exists or not
+    const existingUser = await User.findOne({ email, securityQuestionKaAnswer });
+
+    if (existingUser) {
+        // If user exists then change password
+        const hashedPassword = await hashPassword(newPassword);
+        try {
+            const userAfterUpdatedPassword = await User.findOneAndUpdate({ email }, { password: hashedPassword });
+
+            res.status(200).json({
+                success: true,
+                message: "Password Changed Successfully....",
+            })
+        } catch (error) {
+            // In case any errors while updating
+            console.log(error);
+            res.status(500).json({
+                success: false,
+                message: "Something went wrong....",
+                error
+            })
+        }
+    }
+    else {
+        // If user doesn't exist then return 
+        res.status(200).json({
+            success: false,
+            message: "Either the Email or Security Question's answer is Wrong...."
+        })
+    }
+};
+
 const protectedController = async (req, res) => {
     res.status(200).json({ message: "protected route accessed successfully...." });
 };
 
-export { registerController, loginController, protectedController };
+export { registerController, loginController, protectedController, forgotPasswordController };

@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        securityQuestionKaAnswer: {
+            type: String,
+            required: true,
+        },
         address: {
             type: String,
             required: true,
@@ -29,7 +33,7 @@ const userSchema = mongoose.Schema(
             default: 0
         }
     },
-    {timestamps: true},
+    { timestamps: true },
 );
 
 const User = mongoose.model("USER", userSchema);

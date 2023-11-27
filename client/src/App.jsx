@@ -11,6 +11,7 @@ import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import PrivateRouteAccess from '../components/Routes/PrivateRouteAccess';
 import Dashboard from '../pages/Dashboard';
+import ForgotPassword from '../pages/ForgotPassword';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
