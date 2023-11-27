@@ -13,28 +13,39 @@ const registerController = async (req, res) => {
 
         // Checking if all things are given 
         if (!name) {
-            return res.send({ error: "Name is required...." });
+            return res.send({ message: "Name is required...." });
         }
         if (!email) {
-            return res.send({ error: "Email is required...." });
+            return res.send({ message: "Email is required...." });
         }
         if (!password) {
-            return res.send({ error: "Password is required...." });
+            return res.send({ message: "Password is required...." });
         }
         if (!phone) {
-            return res.send({ error: "Phone is required...." });
+            return res.send({ message: "Phone is required...." });
         }
         if (!address) {
-            return res.send({ error: "Address is required...." });
+            return res.send({ message: "Address is required...." });
         }
 
         // Checking if user is already registered
         const existingUser = await User.findOne({ email });
         if (existingUser) {
+
+            // Creating Json Web Token for authorised User
+            const token = await JWT.sign({ _id: existingUser._id }, process.env.JSON_WEB_TOKEN_SECRET, { expiresIn: "7d" });
+
             return res.status(200).json(
                 {
                     success: true,
                     message: "User is already registered....",
+                    user: {
+                        name: existingUser.name,
+                        phone: existingUser.phone,
+                        email: existingUser.email,
+                        address: existingUser.address,
+                    },
+                    token,
                 }
             )
         }
@@ -47,11 +58,20 @@ const registerController = async (req, res) => {
         // Saving User Details in MongoDB Databasse
         const user = await new User({ name, email, password: hashedPassword, phone, address }).save();
 
+        // Creating Json Web Token for authorised User
+        const token = await JWT.sign({ _id: user._id }, process.env.JSON_WEB_TOKEN_SECRET, { expiresIn: "7d" });
+
         return res.status(201).json(
             {
                 success: true,
                 message: "User registered successfully....",
-                user
+                user: {
+                    name: user.name,
+                    phone: user.phone,
+                    email: user.email,
+                    address: user.address,
+                },
+                token,
             }
         )
 
@@ -106,7 +126,7 @@ const loginController = async (req, res) => {
         }
 
         // Creating Json Web Token for authorised User
-        const token = await JWT.sign({_id: user._id},process.env.JSON_WEB_TOKEN_SECRET,{expiresIn: "7d"});
+        const token = await JWT.sign({ _id: user._id }, process.env.JSON_WEB_TOKEN_SECRET, { expiresIn: "7d" });
 
         // Passing Token to the client
         return res.status(200).json(
@@ -133,8 +153,8 @@ const loginController = async (req, res) => {
     }
 };
 
-const protectedController = async (req,res) => {
-    res.status(200).json({message: "protected route accessed successfully...."});
+const protectedController = async (req, res) => {
+    res.status(200).json({ message: "protected route accessed successfully...." });
 };
 
-export { registerController,loginController,protectedController };
+export { registerController, loginController, protectedController };

@@ -10,7 +10,6 @@ const Layout = (props) => {
         <Header />
         <ToastContainer />
         <main> 
-        This is Layout....
         {props.children}
         </main>
         <Footer />

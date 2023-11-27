@@ -23,11 +23,20 @@ authRouter.post("/login",loginController);
 
 
 /**
- * @authRouter /api/v1/auth/login
- * @description Login user
+ * @authRouter /api/v1/auth/protected-route
+ * @description Admin user login
  * @access protected
  */
 authRouter.get("/protected-route",isRegisteredUserTokenIsPresentMiddleware,checkIfAdminMiddleware,protectedController);
+
+/**
+ * @authRouter /api/v1/auth/is-signed-in
+ * @description Checking If user is Authorised or not
+ * @access protected
+ */
+authRouter.get("/is-signed-in",isRegisteredUserTokenIsPresentMiddleware,(req,res) => {
+    res.status(200).json({isSignedIn: true,message: "User is authorised...."});
+});
 
 // Exporting Router
 export default authRouter;

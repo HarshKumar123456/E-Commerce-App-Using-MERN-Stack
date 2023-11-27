@@ -6,7 +6,15 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useAuth } from "../context/auth";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const Login = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const [auth,setAuth] = useAuth();
+
     const initialUserData = {
         email: "",
         password: "",
@@ -24,14 +32,29 @@ const Login = () => {
                 console.log("Toast kha lo");
                 toast.success("Congrats!! You are Logged in now....");
                 toast.error(`${response.data.message}`);
+                setAuth({...auth,user: response.data.user,token: response.data.token});
+                localStorage.setItem("auth",JSON.stringify(response.data));
+                setTimeout(() => {
+                    navigate(location.state || "/");
+                },5000);
             }
             else {
                 toast.error(`${response.data.message}`);
+                setAuth({...auth,user: null,token: ""});
+                localStorage.removeItem("auth");
+                setTimeout(() => {
+                    navigate("/login");
+                },5000);
             }
 
         } catch (error) {
             console.error(error);
             toast.error(`${error.message}`);
+            setAuth({...auth,user: null,token: ""});
+            localStorage.removeItem("auth");
+            setTimeout(() => {
+                navigate("/login");
+            },5000);
         }
 
     }
