@@ -13,10 +13,12 @@ const Spinner = () => {
         }, 1000);
         if (timeLeftToNavigate === 0) {
             clearInterval(interval);
-            navigate("/login");
+            navigate("/login" , {
+                state: location.pathname,
+            });
         }
         return () => clearInterval(interval); // Cleanup the interval on component unmount
-    }, [timeLeftToNavigate,navigate]);
+    }, [timeLeftToNavigate,navigate,location]);
 
     return (
         <>

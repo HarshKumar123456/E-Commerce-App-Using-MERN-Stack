@@ -7,10 +7,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAuth } from "../context/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [auth,setAuth] = useAuth();
 
@@ -34,7 +35,7 @@ const Login = () => {
                 setAuth({...auth,user: response.data.user,token: response.data.token});
                 localStorage.setItem("auth",JSON.stringify(response.data));
                 setTimeout(() => {
-                    navigate("/");
+                    navigate(location.state || "/");
                 },5000);
             }
             else {
