@@ -45,5 +45,15 @@ authRouter.get("/is-signed-in", isRegisteredUserTokenIsPresentMiddleware, (req, 
     res.status(200).json({ isSignedIn: true, message: "User is authorised...." });
 });
 
+
+/**
+ * @authRouter /api/v1/auth/is-user-admin
+ * @description Checking If user is Authorised or not
+ * @access protected
+ */
+authRouter.get("/is-user-admin", isRegisteredUserTokenIsPresentMiddleware,checkIfAdminMiddleware, (req, res) => {
+    res.status(200).json({ isSignedIn: true, isAdmin: true, message: "User is Admin...." });
+});
+
 // Exporting Router
 export default authRouter;

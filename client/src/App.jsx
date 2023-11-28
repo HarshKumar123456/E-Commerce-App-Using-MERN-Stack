@@ -10,8 +10,10 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import PrivateRouteAccess from '../components/Routes/PrivateRouteAccess';
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '../pages/users/Dashboard';
 import ForgotPassword from '../pages/ForgotPassword';
+import AdminRouteAccess from '../components/Routes/AdminRouteAccess';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
 
 function App() {
 
@@ -21,7 +23,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<PrivateRouteAccess />}>
-            <Route path='' element={<Dashboard />} />
+            <Route path='user' element={<Dashboard />} />
+        </Route>
+        <Route path='/dashboard' element={<AdminRouteAccess />}>
+            <Route path='admin' element={<AdminDashboard />} />
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
