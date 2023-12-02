@@ -14,6 +14,7 @@ import Dashboard from '../pages/users/Dashboard';
 import ForgotPassword from '../pages/ForgotPassword';
 import AdminRouteAccess from '../components/Routes/AdminRouteAccess';
 import AdminDashboard from '../pages/Admin/AdminDashboard';
+import Categories from '../pages/Admin/Category/Categories';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
         </Route>
         <Route path='/dashboard' element={<AdminRouteAccess />}>
             <Route path='admin' element={<AdminDashboard />} />
+            <Route path='admin/categories' element={<Categories />} />
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />

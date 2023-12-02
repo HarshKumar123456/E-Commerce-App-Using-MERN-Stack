@@ -27,11 +27,11 @@ const Header = () => {
                             {auth.user ?
                                 (
                                     <>
-                                        <div class="dropdown">
-                                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div className="dropdown">
+                                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {auth?.user?.name}
                                             </button>
-                                            <ul class="dropdown-menu">
+                                            <ul className="dropdown-menu">
                                                 <li className="dropdown-item">
                                                     <NavLink to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`} className="nav-link" >Dashboard</NavLink>
                                                 </li>
