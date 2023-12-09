@@ -15,6 +15,9 @@ import ForgotPassword from '../pages/ForgotPassword';
 import AdminRouteAccess from '../components/Routes/AdminRouteAccess';
 import AdminDashboard from '../pages/Admin/AdminDashboard';
 import Categories from '../pages/Admin/Category/Categories';
+import Products from '../pages/Admin/Product/Products';
+import CreateProduct from '../pages/Admin/Product/CreateProduct';
+import UpdateDeleteProduct from '../pages/Admin/Product/UpdateDeleteProduct';
 
 function App() {
 
@@ -29,6 +32,9 @@ function App() {
         <Route path='/dashboard' element={<AdminRouteAccess />}>
             <Route path='admin' element={<AdminDashboard />} />
             <Route path='admin/categories' element={<Categories />} />
+            <Route path='admin/products' element={<Products />} />
+            <Route path='admin/create-product' element={<CreateProduct />} /> 
+            <Route path='admin/updateDeleteProduct/:productSlug' element={<UpdateDeleteProduct />} /> 
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
