@@ -3,6 +3,34 @@ import slugify from "slugify";
 import Category from "../models/categoryModel.js";
 import Product from "../models/productModel.js";
 
+const getProductsAsPerPageAndLimitController = async (req, res) => {
+    // console.log("Inside getProductsAsPerPageAndLimitController");
+    // console.log(req.params);
+
+    try {
+        const page = parseInt(req.params.page) || 1; // Default to page 1 if not specified
+        const limit = parseInt(req.params.limit) || 10; // Default to 10 products per page if not specified
+
+        // console.log(page + " ---- " + limit );
+        const products = await Product.find()
+            .limit(parseInt(limit)) // Limit the number of results per page
+            .skip((page - 1) * limit); // Calculate the offset based on the page number
+
+        res.status(200).json({
+            success: true,
+            message: "Products retrieved successfully",
+            data: products
+        });
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching products per page",
+            error: error.message
+        });
+    }
+};
+
 const getAllProductsController = async (req, res) => {
     // console.log("Inside getAllProductsController");
 
@@ -304,4 +332,4 @@ const deleteProductController = async (req, res) => {
     }
 };
 
-export { getAllProductsController, getAllProductsByCategoryController, createProductController, getProductController, updateProductController, deleteProductController };
+export { getProductsAsPerPageAndLimitController,getAllProductsController, getAllProductsByCategoryController, createProductController, getProductController, updateProductController, deleteProductController };
