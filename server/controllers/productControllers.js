@@ -10,9 +10,20 @@ const getProductsAsPerPageAndLimitController = async (req, res) => {
     try {
         const page = parseInt(req.params.page) || 1; // Default to page 1 if not specified
         const limit = parseInt(req.params.limit) || 10; // Default to 10 products per page if not specified
+        const categories = req.query.categories; // Get categories from query parameters
+        console.log("category in params is....");
+        console.log(categories);
+
+        let query = {};
+
+        if (categories) {
+            const categoryArray = categories.split(',');
+            console.log(categoryArray);
+            query = { categoryId: { $in: categoryArray } };
+        }
 
         // console.log(page + " ---- " + limit );
-        const products = await Product.find()
+        const products = await Product.find(query)
             .limit(parseInt(limit)) // Limit the number of results per page
             .skip((page - 1) * limit); // Calculate the offset based on the page number
 

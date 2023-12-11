@@ -15,12 +15,44 @@ const Home = () => {
 
     const [allPagesVisited, setAllPagesVisited] = useState(false);
 
+    const [categories, setCategories] = useState(null);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    const getAllCategories = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const data = response.data;
+            console.log("printing all categories");
+            console.log(data.allCategories);
+            if (data.success) {
+                toast.success("Successfully got all categories....");
+                setCategories(data.allCategories);
+                console.log("printing categories");
+                console.log(categories);
+            }
+            else {
+                toast.error(data.message);
+                setCategories(null);
+            }
+
+        } catch (error) {
+            toast.error("Error getting all categories....");
+            toast.error(error.message);
+            setCategories(null);
+        }
+    };
+
+    useEffect(() => {
+        getAllCategories();
+    }, []);
+
     const getProductsAsPerPageAndLimit = async () => {
 
         console.log("Inside it ....");
 
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/product/get-products/${page}/${limit}`);
+            const categoriesString = selectedCategories.join(',');
+            const response = await axios.get(`http://localhost:8000/api/v1/product/get-products/${page}/${limit}?categories=${categoriesString}`);
 
             if (response?.data?.success) {
                 console.log("Data received for page no " + page);
@@ -65,6 +97,27 @@ const Home = () => {
         }
     };
 
+    // Handle category selection change
+    const handleCategoryChange = (category) => {
+        const index = selectedCategories.indexOf(category);
+        if (index === -1) {
+            setSelectedCategories([...selectedCategories, category]);
+        } else {
+            const newCategories = [...selectedCategories];
+            newCategories.splice(index, 1);
+            setSelectedCategories(newCategories);
+        }
+
+        // Reset page to 1 when category changes
+        setPage(1);
+        setAllPagesVisited(false);
+        setProducts([]);
+        console.log("page value is now " + page);
+        console.log("categories selected are ");
+        console.log(selectedCategories);
+        
+    };
+
     useEffect(() => {
         if (allPagesVisited) {
             console.log("Returning as all pages visited.....");
@@ -72,7 +125,7 @@ const Home = () => {
             return;
         }
         getProductsAsPerPageAndLimit();
-    }, [page]);
+    }, [page,selectedCategories]);
 
 
     useEffect(() => {
@@ -86,6 +139,18 @@ const Home = () => {
                 <aside style={{ width: "250px", backgroundColor: "black", padding: "20px" }}>
                     <h2>Brand</h2>
 
+                    <h5>Category Filter</h5>
+                    {categories && categories.map((category) => (
+                        <div key={category._id}>
+                            <input
+                                type="checkbox"
+                                id={category._id}
+                                checked={selectedCategories.includes(category._id)}
+                                onChange={() => handleCategoryChange(category._id)}
+                            />
+                            <label htmlFor={category._id}>{category.name}</label>
+                        </div>
+                    ))}
                 </aside>
                 <main style={{ flex: "1", padding: "20px" }}>
                     <h2>Products</h2>
@@ -99,7 +164,7 @@ const Home = () => {
                                             alt="product-image" />
                                         <div className="card-body">
                                             <h5 className="card-title">{product.name}</h5>
-                                            <p className="card-text">{(product.description).slice(0,30)+"...."}</p>
+                                            <p className="card-text">{(product.description).slice(0, 30) + "...."}</p>
                                             <p className="card-text">{product.price}</p>
                                             <Link to={`/detailsOfProduct/${product.slug}`} className="btn btn-outline-primary w-100">
                                                 View
@@ -116,7 +181,7 @@ const Home = () => {
                             {"No Products Available for now...."}
                         </>}
                     </div>
-                    
+
                     {loading && <>
                         <div className="spinner-border" role="status">
                             <span className="visually-hidden">Loading...</span>
