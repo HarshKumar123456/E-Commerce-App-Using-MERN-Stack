@@ -18,6 +18,7 @@ import Categories from '../pages/Admin/Category/Categories';
 import Products from '../pages/Admin/Product/Products';
 import CreateProduct from '../pages/Admin/Product/CreateProduct';
 import UpdateDeleteProduct from '../pages/Admin/Product/UpdateDeleteProduct';
+import DetailsOfProduct from '../pages/DetailsOfProduct';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/detailsOfProduct/:productSlug' element={<DetailsOfProduct />} />
         <Route path='/dashboard' element={<PrivateRouteAccess />}>
             <Route path='user' element={<Dashboard />} />
         </Route>

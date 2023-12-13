@@ -151,7 +151,7 @@ const UpdateDeleteProduct = () => {
                             <option>Select A Category</option>
                             {categories && productDetails && categories.map((category) => {
                                 // return <option key={category._id} value={category._id}>{category.name}</option>
-                                if (category._id === productDetails.categoryId) {
+                                if (category._id === productDetails.categoryId._id) {
                                     return <option selected key={category._id} value={category._id}>{category.name}</option>
                                 }
                                 else {

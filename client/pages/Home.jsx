@@ -115,7 +115,7 @@ const Home = () => {
         console.log("page value is now " + page);
         console.log("categories selected are ");
         console.log(selectedCategories);
-        
+
     };
 
     useEffect(() => {
@@ -125,7 +125,7 @@ const Home = () => {
             return;
         }
         getProductsAsPerPageAndLimit();
-    }, [page,selectedCategories]);
+    }, [page, selectedCategories]);
 
 
     useEffect(() => {
@@ -166,8 +166,12 @@ const Home = () => {
                                             <h5 className="card-title">{product.name}</h5>
                                             <p className="card-text">{(product.description).slice(0, 30) + "...."}</p>
                                             <p className="card-text">{product.price}</p>
-                                            <Link to={`/detailsOfProduct/${product.slug}`} className="btn btn-outline-primary w-100">
-                                                View
+                                            <Link to={`/detailsOfProduct/${product.slug}`} className="btn btn-outline-primary w-50">
+                                                More Info
+                                            </Link>
+                                            <Link to={`/add-to-cart/${product.slug}`} className="btn btn-outline-warning">
+                                                <img width="20" height="20" src="https://img.icons8.com/ios/50/ffffff/shopping-cart--v1.png" alt="shopping-cart--v1" className="mr-2" />
+                                                Add to Cart
                                             </Link>
                                         </div>
                                     </div>
