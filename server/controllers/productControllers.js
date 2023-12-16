@@ -42,6 +42,45 @@ const getProductsAsPerPageAndLimitController = async (req, res) => {
     }
 };
 
+const searchProductsByKeywordAndPageAndLimitController = async (req,res) => {
+    // console.log("Inside getProductsAsPerPageAndLimitController");
+    // console.log(req.params);
+    
+    try {
+        const keyword = req.params.keyword;
+        const page = parseInt(req.params.page) || 1; // Default to page 1 if not specified
+        const limit = parseInt(req.params.limit) || 10; // Default to 10 products per page if not specified
+
+        let query = {};
+
+         // If keyword to search is provided, perform a text search on name and description fields
+         if (keyword) {
+            query.$or = [
+                { name: { $regex: keyword, $options: 'i' } }, // Case-insensitive regex search for name
+                { description: { $regex: keyword, $options: 'i' } } // Case-insensitive regex search for description
+            ];
+        }
+
+        // console.log(page + " ---- " + limit );
+        const products = await Product.find(query)
+            .limit(parseInt(limit)) // Limit the number of results per page
+            .skip((page - 1) * limit); // Calculate the offset based on the page number
+
+        res.status(200).json({
+            success: true,
+            message: "Products Searched successfully",
+            data: products
+        });
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error searching products using the keyword",
+            error: error.message
+        });
+    }
+};
+
 const getAllProductsController = async (req, res) => {
     // console.log("Inside getAllProductsController");
 
@@ -343,4 +382,4 @@ const deleteProductController = async (req, res) => {
     }
 };
 
-export { getProductsAsPerPageAndLimitController,getAllProductsController, getAllProductsByCategoryController, createProductController, getProductController, updateProductController, deleteProductController };
+export { getProductsAsPerPageAndLimitController, searchProductsByKeywordAndPageAndLimitController,getAllProductsController, getAllProductsByCategoryController, createProductController, getProductController, updateProductController, deleteProductController };

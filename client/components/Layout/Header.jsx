@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
 const Header = () => {
@@ -8,6 +8,19 @@ const Header = () => {
     // console.log("we are saying that inside header the auth is : ");
     // console.log(auth);
 
+    const navigate = useNavigate();
+
+    const [keyword,setKeyword] = useState("");
+    const handleSearchKeywordChange = (e) => {
+        setKeyword(e.target.value);
+    };
+    const handleSearchKeywordSubmit = (e) => {
+        // Let the page reload whenever the search keyword is submitted
+        // e.preventDefault(); 
+        // Make this page to navigate to the search product by keyword
+        navigate(`/search-product/${keyword}`);
+    };
+ 
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -16,6 +29,19 @@ const Header = () => {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
+                    <form onSubmit={handleSearchKeywordSubmit} className="d-flex flex-grow-1 mx-4">
+                        <input
+                            className="form-control me-2 flex-grow-1"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                            value={keyword}
+                            onChange={handleSearchKeywordChange}
+                        />
+                        <button className="btn btn-outline-primary" type="submit">
+                            Search
+                        </button>
+                    </form>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">

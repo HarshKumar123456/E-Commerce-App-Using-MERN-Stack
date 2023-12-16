@@ -1,6 +1,6 @@
 import express from "express";
 import { checkIfAdminMiddleware, isRegisteredUserTokenIsPresentMiddleware } from "../middlewares/authMiddleware.js";
-import { getAllProductsController, getAllProductsByCategoryController,createProductController, getProductController, updateProductController, deleteProductController, getProductsAsPerPageAndLimitController } from "../controllers/productControllers.js";
+import { getAllProductsController, getAllProductsByCategoryController,createProductController, getProductController, updateProductController, deleteProductController, getProductsAsPerPageAndLimitController, searchProductsByKeywordAndPageAndLimitController } from "../controllers/productControllers.js";
 
 // Router to access Product related routes
 const productRouter = express.Router();
@@ -14,6 +14,13 @@ const productRouter = express.Router();
  * @access public
  */
 productRouter.get("/get-products/:page/:limit",getProductsAsPerPageAndLimitController);
+
+/**
+ * @productRouter /api/v1/product/search-products/:keyword/:page/:limit
+ * @description Get products as per page and limit 
+ * @access public
+ */
+productRouter.get("/search-products/:keyword/:page/:limit",searchProductsByKeywordAndPageAndLimitController);
 
 
 /**
