@@ -21,6 +21,8 @@ import UpdateDeleteProduct from '../pages/Admin/Product/UpdateDeleteProduct';
 import DetailsOfProduct from '../pages/DetailsOfProduct';
 import SearchProductsByKeyword from '../pages/SearchProductsByKeyword';
 import CartPage from '../pages/CartPage';
+import CategoryPage from '../pages/CategoryPage';
+import CategoryProductsPage from '../pages/CategoryProductsPage';
 
 function App() {
 
@@ -29,18 +31,20 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/category' element={<CategoryPage />} />
+        <Route path='/category/:categoryId' element={<CategoryProductsPage />} />
         <Route path='/cart' element={<CartPage />} />
         <Route path='/detailsOfProduct/:productSlug' element={<DetailsOfProduct />} />
         <Route path='/search-product/:keyword' element={<SearchProductsByKeyword />} />
         <Route path='/dashboard' element={<PrivateRouteAccess />}>
-            <Route path='user' element={<Dashboard />} />
+          <Route path='user' element={<Dashboard />} />
         </Route>
         <Route path='/dashboard' element={<AdminRouteAccess />}>
-            <Route path='admin' element={<AdminDashboard />} />
-            <Route path='admin/categories' element={<Categories />} />
-            <Route path='admin/products' element={<Products />} />
-            <Route path='admin/create-product' element={<CreateProduct />} /> 
-            <Route path='admin/updateDeleteProduct/:productSlug' element={<UpdateDeleteProduct />} /> 
+          <Route path='admin' element={<AdminDashboard />} />
+          <Route path='admin/categories' element={<Categories />} />
+          <Route path='admin/products' element={<Products />} />
+          <Route path='admin/create-product' element={<CreateProduct />} />
+          <Route path='admin/updateDeleteProduct/:productSlug' element={<UpdateDeleteProduct />} />
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />

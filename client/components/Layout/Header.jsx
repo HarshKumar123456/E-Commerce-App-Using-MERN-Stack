@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { useCart } from "../../context/cart";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Header = () => {
     const [cart,setCart] = useCart();
@@ -22,6 +24,35 @@ const Header = () => {
         // Make this page to navigate to the search product by keyword
         navigate(`/search-product/${keyword}`);
     };
+    const [categories, setCategories] = useState(null);
+
+    const getAllCategories = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const data = response.data;
+            console.log("printing all categories");
+            console.log(data.allCategories);
+            if (data.success) {
+                // toast.success("Successfully got all categories....");
+                setCategories(data.allCategories);
+                console.log("printing categories");
+                console.log(categories);
+            }
+            else {
+                toast.error(data.message);
+                setCategories(null);
+            }
+
+        } catch (error) {
+            toast.error("Error getting all categories....");
+            toast.error(error.message);
+            setCategories(null);
+        }
+    };
+
+    useEffect(() => {
+        getAllCategories();
+    }, []);
  
     return (
         <>
@@ -50,7 +81,21 @@ const Header = () => {
                                 <NavLink to="/" className="nav-link" aria-current="page" >Home</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/category" className="nav-link" >Category</NavLink>
+                                {/* <NavLink to="/category" className="nav-link" >Category</NavLink> */}
+                                <div className="dropdown">
+                                            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Category
+                                            </button>
+                                            <ul className="dropdown-menu">
+                                                {categories && categories.map(category => (
+                                                    <li key={category._id} className="dropdown-item">
+                                                        <NavLink to={`/category/${category._id}`} className="nav-link">
+                                                            {category.name}
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                             </li>
                             {auth.user ?
                                 (
