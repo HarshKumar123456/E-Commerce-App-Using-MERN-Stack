@@ -10,7 +10,17 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import PrivateRouteAccess from '../components/Routes/PrivateRouteAccess';
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '../pages/users/Dashboard';
+import ForgotPassword from '../pages/ForgotPassword';
+import AdminRouteAccess from '../components/Routes/AdminRouteAccess';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
+import Categories from '../pages/Admin/Category/Categories';
+import Products from '../pages/Admin/Product/Products';
+import CreateProduct from '../pages/Admin/Product/CreateProduct';
+import UpdateDeleteProduct from '../pages/Admin/Product/UpdateDeleteProduct';
+import DetailsOfProduct from '../pages/DetailsOfProduct';
+import SearchProductsByKeyword from '../pages/SearchProductsByKeyword';
+import CartPage from '../pages/CartPage';
 
 function App() {
 
@@ -19,11 +29,22 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/cart' element={<CartPage />} />
+        <Route path='/detailsOfProduct/:productSlug' element={<DetailsOfProduct />} />
+        <Route path='/search-product/:keyword' element={<SearchProductsByKeyword />} />
         <Route path='/dashboard' element={<PrivateRouteAccess />}>
-            <Route path='' element={<Dashboard />} />
+            <Route path='user' element={<Dashboard />} />
+        </Route>
+        <Route path='/dashboard' element={<AdminRouteAccess />}>
+            <Route path='admin' element={<AdminDashboard />} />
+            <Route path='admin/categories' element={<Categories />} />
+            <Route path='admin/products' element={<Products />} />
+            <Route path='admin/create-product' element={<CreateProduct />} /> 
+            <Route path='admin/updateDeleteProduct/:productSlug' element={<UpdateDeleteProduct />} /> 
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />

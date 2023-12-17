@@ -19,6 +19,7 @@ const Register = () => {
         email: "",
         phone: "",
         password: "",
+        securityQuestionKaAnswer: "",
         address: ""
     };
     const [userData, setUserData] = useState(initialUserData);
@@ -38,7 +39,7 @@ const Register = () => {
                 localStorage.setItem("auth", JSON.stringify(response.data));
                 setTimeout(() => {
                     navigate("/");
-                }, 5000);
+                }, 2000);
             }
             else {
                 toast.error(`${response.data.message}`);
@@ -46,7 +47,7 @@ const Register = () => {
                 localStorage.removeItem("auth");
                 setTimeout(() => {
                     navigate("/register");
-                }, 5000);
+                }, 2000);
             }
 
         } catch (error) {
@@ -56,7 +57,7 @@ const Register = () => {
             localStorage.removeItem("auth");
             setTimeout(() => {
                 navigate("/register");
-            }, 5000);
+            }, 2000);
         }
 
     }
@@ -91,6 +92,10 @@ const Register = () => {
                     <div className="form-floating">
                         <input required name="password" value={userData.password} onChange={handleChange} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
                         <label htmlFor="floatingPassword">Password</label>
+                    </div>
+                    <div className="form-floating">
+                        <input required name="securityQuestionKaAnswer" value={userData.securityQuestionKaAnswer} onChange={handleChange} type="text" className="form-control" id="floatingsecurityQuestionKaAnswer" placeholder="What is your favourite ?" />
+                        <label htmlFor="floatingsecurityQuestionKaAnswer">Security Question's Answer</label>
                     </div>
                     <div className="form-floating">
                         <input required name="address" value={userData.address} onChange={handleChange} type="text" className="form-control" id="floatingAddress" placeholder="Address" />

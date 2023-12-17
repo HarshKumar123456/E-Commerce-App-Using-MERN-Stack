@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAuth } from "../context/auth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ const Login = () => {
                 localStorage.setItem("auth",JSON.stringify(response.data));
                 setTimeout(() => {
                     navigate(location.state || "/");
-                },5000);
+                },2000);
             }
             else {
                 toast.error(`${response.data.message}`);
@@ -44,7 +44,7 @@ const Login = () => {
                 localStorage.removeItem("auth");
                 setTimeout(() => {
                     navigate("/login");
-                },5000);
+                },2000);
             }
 
         } catch (error) {
@@ -54,7 +54,7 @@ const Login = () => {
             localStorage.removeItem("auth");
             setTimeout(() => {
                 navigate("/login");
-            },5000);
+            },2000);
         }
 
     }
@@ -87,7 +87,8 @@ const Login = () => {
 
 
 
-                    <button className="btn btn-primary w-100 py-2" type="submit">Sign In</button>
+                    <Link to={"/forgot-password"} className="btn btn-outline-primary w-50 py-2">Forgot Password</Link>
+                    <button className="btn btn-outline-success w-50 py-2" type="submit">Sign In</button>
                     <p className="mt-5 mb-3 text-body-secondary">© 2004–{new Date().getFullYear()}</p>
                 </form>
             </div>

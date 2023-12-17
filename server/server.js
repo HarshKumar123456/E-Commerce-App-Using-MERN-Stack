@@ -4,6 +4,8 @@ import cors from "cors";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 const app = express();
 
@@ -25,6 +27,12 @@ app.use((req, res, next) => {
 
 // To access authorisation related routes
 app.use("/api/v1/auth",authRoutes);
+
+// To access category related routes
+app.use("/api/v1/category",categoryRoutes);
+
+// To access product related routes
+app.use("/api/v1/product",productRoutes);
 
 // Connecting to MongoDB -----------------------
 connectDB();
