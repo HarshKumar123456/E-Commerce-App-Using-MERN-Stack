@@ -4,8 +4,11 @@ import { useAuth } from "../context/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/cart";
 
 const Home = () => {
+    const [cart,setCart] = useCart();
+
     const [auth, setAuth] = useAuth();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -118,6 +121,21 @@ const Home = () => {
 
     };
 
+    // Handle Add to Cart Button Click
+    const handleAddToCartButtonClick = (productToAddInCart) => {
+        setCart((prev) => {
+            const existingItem = prev.find(item => item._id === productToAddInCart._id);
+            if (existingItem) {
+                return prev;
+            }
+            const newCart = [...prev,productToAddInCart];
+            localStorage.setItem("cart",JSON.stringify(newCart));
+            return newCart;
+        });
+        console.log("cart after adding...");
+        console.log(cart);
+    };
+
     useEffect(() => {
         if (allPagesVisited) {
             console.log("Returning as all pages visited.....");
@@ -169,10 +187,12 @@ const Home = () => {
                                             <Link to={`/detailsOfProduct/${product.slug}`} className="btn btn-outline-primary w-50">
                                                 More Info
                                             </Link>
-                                            <Link to={`/add-to-cart/${product.slug}`} className="btn btn-outline-warning">
+                                            <button className="btn btn-outline-warning" onClick={() => {
+                                                handleAddToCartButtonClick(product);
+                                            }}>
                                                 <img width="20" height="20" src="https://img.icons8.com/ios/50/ffffff/shopping-cart--v1.png" alt="shopping-cart--v1" className="mr-2" />
                                                 Add to Cart
-                                            </Link>
+                                            </button>
                                         </div>
                                     </div>
                                 </>

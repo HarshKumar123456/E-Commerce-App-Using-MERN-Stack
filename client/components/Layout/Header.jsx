@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
+import { useCart } from "../../context/cart";
 
 const Header = () => {
+    const [cart,setCart] = useCart();
     const [auth, setAuth] = useAuth();
 
     // console.log("we are saying that inside header the auth is : ");
@@ -83,7 +85,7 @@ const Header = () => {
                                     </>
                                 )}
                             <li className="nav-item">
-                                <NavLink to="/cart" className="nav-link" >Cart ({0})</NavLink>
+                                <NavLink to="/cart" className="nav-link" >Cart ({cart?.length})</NavLink>
                             </li>
                         </ul>
                     </div>
