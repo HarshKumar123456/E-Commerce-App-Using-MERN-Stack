@@ -23,6 +23,8 @@ import SearchProductsByKeyword from '../pages/SearchProductsByKeyword';
 import CartPage from '../pages/CartPage';
 import CategoryPage from '../pages/CategoryPage';
 import CategoryProductsPage from '../pages/CategoryProductsPage';
+import MyProfile from '../pages/users/Profile/MyProfile';
+import MyOrders from '../pages/users/Orders/MyOrders';
 
 function App() {
 
@@ -37,7 +39,9 @@ function App() {
         <Route path='/detailsOfProduct/:productSlug' element={<DetailsOfProduct />} />
         <Route path='/search-product/:keyword' element={<SearchProductsByKeyword />} />
         <Route path='/dashboard' element={<PrivateRouteAccess />}>
-          <Route path='user' element={<Dashboard />} />
+          <Route path='user/home' element={<Dashboard />} />
+          <Route path='user/profile' element={<MyProfile />} />
+          <Route path='user/orders' element={<MyOrders />} />
         </Route>
         <Route path='/dashboard' element={<AdminRouteAccess />}>
           <Route path='admin' element={<AdminDashboard />} />

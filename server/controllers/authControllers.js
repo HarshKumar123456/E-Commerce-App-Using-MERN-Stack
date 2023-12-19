@@ -197,4 +197,48 @@ const protectedController = async (req, res) => {
     res.status(200).json({ message: "protected route accessed successfully...." });
 };
 
-export { registerController, loginController, protectedController, forgotPasswordController };
+const updateProfileController = async (req, res) => {
+    // Getting Details of user from req.body
+    const { email , name, password, phone , address} = req.body;
+
+    // Checking if the user with email exists or not
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+        // If user exists then update profile
+        const hashedPassword = await hashPassword(password);
+        try {
+            const userUpdatedProfile = await User.findOneAndUpdate({ email }, { 
+                password: hashedPassword || existingUser.password,
+                name: name || existingUser.name,
+                phone: phone || existingUser.phone, 
+                address: address || existingUser.address, 
+            });
+
+            // Pass the Updated profile  
+            const userAfterUpdatedProfile = await User.findOne({email});
+            res.status(200).json({
+                success: true,
+                message: "Profile Updated Successfully....",
+                userAfterUpdatedProfile,
+            });
+        } catch (error) {
+            // In case any errors while updating
+            console.log(error);
+            res.status(500).json({
+                success: false,
+                message: "Something went wrong....",
+                error
+            });
+        }
+    }
+    else {
+        // If user doesn't exist then return 
+        res.status(200).json({
+            success: false,
+            message: "Email is Wrong...."
+        });
+    }
+};
+
+export { registerController, loginController, protectedController, forgotPasswordController,updateProfileController };
