@@ -44,7 +44,7 @@ const CartPage = () => {
             }
 
             // As in the logic of Razorpay payment amount is taken in paise so convert this amount in paise
-            amount = amount*100;
+            amount = amount * 100;
             try {
                 const response = await axios.post(`http://localhost:8000/api/v1/payment/createOrder`,
                     { amount },
@@ -63,9 +63,28 @@ const CartPage = () => {
                         "image": import.meta.env.VITE_BRAND_LOGO_IMAGE_URL,
                         "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                         "handler": async function (response) {
-                            alert(response.razorpay_payment_id);
-                            alert(response.razorpay_order_id);
-                            alert(response.razorpay_signature); 
+                            // alert(response.razorpay_payment_id);
+                            // alert(response.razorpay_order_id);
+                            // alert(response.razorpay_signature);
+                            const paymentVerificableData = {
+                                ...response,
+                            };
+
+                            try {
+                                const validatePaymentResponse = await axios.post(`http://localhost:8000/api/v1/payment/verify-payment`, paymentVerificableData);
+
+                                const dataOfResponse = validatePaymentResponse.data;
+                                console.log(dataOfResponse);
+                                if (dataOfResponse?.success) {
+                                    toast.success(dataOfResponse?.message);
+                                }
+                                else {
+                                    toast.error(dataOfResponse?.message);
+                                }
+                            } catch (error) {
+                                console.log(error);
+                                toast.error(error.message);
+                            }
                         },
                         "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
                             "name": auth?.user?.name, //your customer's name
