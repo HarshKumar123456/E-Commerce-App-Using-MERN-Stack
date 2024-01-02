@@ -1,5 +1,5 @@
 import express from "express";
-import { registerController, loginController, protectedController, forgotPasswordController } from "../controllers/authControllers.js";
+import { registerController, loginController, protectedController, forgotPasswordController, updateProfileController } from "../controllers/authControllers.js";
 import { checkIfAdminMiddleware, isRegisteredUserTokenIsPresentMiddleware } from "../middlewares/authMiddleware.js";
 
 // Router to access Authorisation related routes
@@ -54,6 +54,13 @@ authRouter.get("/is-signed-in", isRegisteredUserTokenIsPresentMiddleware, (req, 
 authRouter.get("/is-user-admin", isRegisteredUserTokenIsPresentMiddleware,checkIfAdminMiddleware, (req, res) => {
     res.status(200).json({ isSignedIn: true, isAdmin: true, message: "User is Admin...." });
 });
+
+/**
+ * @authRouter /api/v1/auth/update-profile
+ * @description Updating Profile of Logged In User
+ * @access protected
+ */
+authRouter.put("/update-profile", isRegisteredUserTokenIsPresentMiddleware,updateProfileController);
 
 // Exporting Router
 export default authRouter;

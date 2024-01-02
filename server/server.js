@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import razorpayPaymentRoutes from "./routes/razorpayPaymentRoutes.js";
 
 const app = express();
 
@@ -33,6 +34,9 @@ app.use("/api/v1/category",categoryRoutes);
 
 // To access product related routes
 app.use("/api/v1/product",productRoutes);
+
+// To access payment related routes
+app.use("/api/v1/payment",razorpayPaymentRoutes);
 
 // Connecting to MongoDB -----------------------
 connectDB();
