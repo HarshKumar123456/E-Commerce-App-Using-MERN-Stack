@@ -33,7 +33,7 @@ const Categories = () => {
             console.log("printing all categories");
             console.log(data.allCategories);
             if (data.success) {
-                toast.success("Successfully got all categories....");
+                // toast.success("Successfully got all categories....");
                 setCategories(data.allCategories);
                 console.log("printing categories");
                 console.log(categories);
