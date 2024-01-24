@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/cart";
 
 const Home = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [cart,setCart] = useCart();
 
     const [auth, setAuth] = useAuth();
@@ -23,7 +25,7 @@ const Home = () => {
 
     const getAllCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const response = await axios.get(`${serverURI}/api/v1/category/get-all-categories`);
             const data = response.data;
             console.log("printing all categories");
             console.log(data.allCategories);
@@ -55,7 +57,7 @@ const Home = () => {
 
         try {
             const categoriesString = selectedCategories.join(',');
-            const response = await axios.get(`http://localhost:8000/api/v1/product/get-products/${page}/${limit}?categories=${categoriesString}`);
+            const response = await axios.get(`${serverURI}/api/v1/product/get-products/${page}/${limit}?categories=${categoriesString}`);
 
             if (response?.data?.success) {
                 console.log("Data received for page no " + page);

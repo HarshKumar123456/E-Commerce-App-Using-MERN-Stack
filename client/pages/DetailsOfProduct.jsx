@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useCart } from "../context/cart";
 
 const DetailsOfProduct = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [cart,setCart] = useCart();
 
     console.log("Inside it...");
@@ -14,7 +16,7 @@ const DetailsOfProduct = () => {
 
     const getProductDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/product/get-product/${productSlug}`);
+            const response = await axios.get(`${serverURI}/api/v1/product/get-product/${productSlug}`);
 
             if (response?.data?.success) {
                 console.log("Got the product");

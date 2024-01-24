@@ -6,6 +6,8 @@ import axios from "axios";
 import { useCart } from "../context/cart";
 
 const SearchProductsByKeyword = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [cart,setCart] = useCart();
     const { keyword } = useParams();
 
@@ -19,7 +21,7 @@ const SearchProductsByKeyword = () => {
 
     const getProductsByKeyword = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/product/search-products/${keyword}/${page}/${limit}`)
+            const response = await axios.get(`${serverURI}/api/v1/product/search-products/${keyword}/${page}/${limit}`)
 
             if (response?.data?.success) {
                 if (response?.data?.data.length === 0) {

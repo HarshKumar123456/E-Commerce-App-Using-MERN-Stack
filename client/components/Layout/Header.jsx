@@ -6,6 +6,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Header = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [cart,setCart] = useCart();
     const [auth, setAuth] = useAuth();
 
@@ -28,7 +30,7 @@ const Header = () => {
 
     const getAllCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const response = await axios.get(`${serverURI}/api/v1/category/get-all-categories`);
             const data = response.data;
             console.log("printing all categories");
             console.log(data.allCategories);

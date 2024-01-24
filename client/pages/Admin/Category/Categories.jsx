@@ -11,6 +11,8 @@ import { useAuth } from "../../../context/auth";
 import EditCategoryModal from "./EditCategoryModal";
 
 const Categories = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -26,7 +28,7 @@ const Categories = () => {
 
     const getAllCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const response = await axios.get(`${serverURI}/api/v1/category/get-all-categories`);
             const data = response.data;
             console.log("printing all categories");
             console.log(data.allCategories);
@@ -61,7 +63,7 @@ const Categories = () => {
         // console.log(name);
         console.log(auth?.token);
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/category/create-category`, {
+            const response = await axios.post(`${serverURI}/api/v1/category/create-category`, {
                 name: name,
             }, {
                 headers: { Authorization: auth?.token || "" }
@@ -85,7 +87,7 @@ const Categories = () => {
     const handleEditFormSubmit = async (idOfCategory, newName) => {
         try {
             const response = await axios.put(
-                `http://localhost:8000/api/v1/category/update-category/${idOfCategory}`,
+                `${serverURI}/api/v1/category/update-category/${idOfCategory}`,
                 { name: newName },
                 {
                     headers: { Authorization: auth?.token || "" }
@@ -113,7 +115,7 @@ const Categories = () => {
         console.log("Delete button clicked....");
         console.log(idOfCategory);
         try {
-            const response = await axios.delete(`http://localhost:8000/api/v1/category/delete-category/${idOfCategory}`, {
+            const response = await axios.delete(`${serverURI}/api/v1/category/delete-category/${idOfCategory}`, {
                 headers: { Authorization: auth?.token || "" }
             },);
             console.log(response.data);

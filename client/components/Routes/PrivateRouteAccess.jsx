@@ -5,13 +5,15 @@ import { useAuth } from "../../context/auth";
 import axios from "axios";
 
 const PrivateRouteAccess = (props) => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [isUserSignedIn, setIsUserSignedIn] = useState(false);
     const [auth, setAuth] = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/v1/auth/is-signed-in`, {
+                const response = await axios.get(`${serverURI}/api/v1/auth/is-signed-in`, {
                     headers: {Authorization: auth?.token || ""}
                 });
                 // Process response or set state based on the response
