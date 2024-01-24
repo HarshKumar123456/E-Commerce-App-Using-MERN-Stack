@@ -8,6 +8,8 @@ import AdminMenu from "../AdminMenu";
 
 
 const CreateProduct = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [auth, setAuth] = useAuth();
     const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const CreateProduct = () => {
 
     const getAllCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const response = await axios.get(`${serverURI}/api/v1/category/get-all-categories`);
             const data = response.data;
             console.log("printing all categories");
             console.log(data.allCategories);
@@ -66,7 +68,7 @@ const CreateProduct = () => {
         console.log(productCategory);
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/product/create-product/${productCategory}`, productDetails, {
+            const response = await axios.post(`${serverURI}/api/v1/product/create-product/${productCategory}`, productDetails, {
                 headers: { Authorization: auth?.token || "" }
             },);
 

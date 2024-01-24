@@ -10,6 +10,8 @@ import { useAuth } from "../context/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -25,7 +27,7 @@ const Login = () => {
         console.log(userData);
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth/login`, userData);
+            const response = await axios.post(`${serverURI}/api/v1/auth/login`, userData);
             console.log(response.data);
 
             if (response.data.success) {

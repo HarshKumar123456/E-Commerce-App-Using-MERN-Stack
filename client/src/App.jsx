@@ -42,6 +42,7 @@ function App() {
           <Route path='user/home' element={<Dashboard />} />
           <Route path='user/profile' element={<MyProfile />} />
           <Route path='user/orders' element={<MyOrders />} />
+          <Route path='user' element={<Dashboard />} />
         </Route>
         <Route path='/dashboard' element={<AdminRouteAccess />}>
           <Route path='admin' element={<AdminDashboard />} />

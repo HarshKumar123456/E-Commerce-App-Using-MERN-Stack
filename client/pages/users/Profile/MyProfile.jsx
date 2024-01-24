@@ -7,6 +7,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const MyProfile = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [auth, setAuth] = useAuth();
 
     const initialUserData = { ...auth?.user, password: "" };
@@ -18,7 +20,7 @@ const MyProfile = () => {
         console.log(userData);
 
         try {
-            const response = await axios.put(`http://localhost:8000/api/v1/auth/update-profile`, userData, {
+            const response = await axios.put(`${serverURI}/api/v1/auth/update-profile`, userData, {
                 headers: {
                     Authorization: auth?.token || "",
                 }

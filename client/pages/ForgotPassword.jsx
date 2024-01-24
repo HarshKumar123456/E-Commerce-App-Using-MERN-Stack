@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -24,7 +26,7 @@ const ForgotPassword = () => {
         console.log(userData);
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/auth/forgot-password`, userData);
+            const response = await axios.post(`${serverURI}/api/v1/auth/forgot-password`, userData);
             console.log(response.data);
 
             if (response.data.success) {

@@ -7,6 +7,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const CartPage = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const navigate = useNavigate();
 
     const [auth, setAuth] = useAuth();
@@ -46,7 +48,7 @@ const CartPage = () => {
             // As in the logic of Razorpay payment amount is taken in paise so convert this amount in paise
             amount = amount * 100;
             try {
-                const response = await axios.post(`http://localhost:8000/api/v1/payment/createOrder`,
+                const response = await axios.post(`${serverURI}/api/v1/payment/createOrder`,
                     { amount },
                 );
 
@@ -71,7 +73,7 @@ const CartPage = () => {
                             };
 
                             try {
-                                const validatePaymentResponse = await axios.post(`http://localhost:8000/api/v1/payment/verify-payment`, paymentVerificableData);
+                                const validatePaymentResponse = await axios.post(`${serverURI}/api/v1/payment/verify-payment`, paymentVerificableData);
 
                                 const dataOfResponse = validatePaymentResponse.data;
                                 console.log(dataOfResponse);

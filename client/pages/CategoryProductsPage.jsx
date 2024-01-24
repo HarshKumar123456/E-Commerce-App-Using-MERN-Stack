@@ -6,6 +6,8 @@ import axios from "axios";
 import { useCart } from "../context/cart";
 
 const CategoryProductsPage = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [cart, setCart] = useCart();
     const { categoryId } = useParams();
 
@@ -24,7 +26,7 @@ const CategoryProductsPage = () => {
         try {
             // Pass category To URL
             const categoriesString = categoryId;
-            const response = await axios.get(`http://localhost:8000/api/v1/product/get-products/${page}/${limit}?categories=${categoriesString}`);
+            const response = await axios.get(`${serverURI}/api/v1/product/get-products/${page}/${limit}?categories=${categoriesString}`);
 
             if (response?.data?.success) {
                 console.log("Data received for page no " + page);

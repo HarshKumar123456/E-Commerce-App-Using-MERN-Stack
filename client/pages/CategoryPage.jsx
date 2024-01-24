@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 
 const CategoryPage = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [categories, setCategories] = useState(null);
 
     const getAllCategories = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const response = await axios.get(`${serverURI}/api/v1/category/get-all-categories`);
             const data = response.data;
             console.log("printing all categories");
             console.log(data.allCategories);

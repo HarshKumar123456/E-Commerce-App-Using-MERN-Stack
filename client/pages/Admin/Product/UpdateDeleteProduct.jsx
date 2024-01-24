@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const UpdateDeleteProduct = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     console.log("Bro let us print url params");
     const { productSlug } = useParams();
     console.log(productSlug);
@@ -21,7 +23,7 @@ const UpdateDeleteProduct = () => {
     const getAllCategories = async () => {
         console.log("Getting all categories....");
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/category/get-all-categories`);
+            const response = await axios.get(`${serverURI}/api/v1/category/get-all-categories`);
             const data = response.data;
             console.log("printing all categories");
             console.log(data.allCategories);
@@ -45,7 +47,7 @@ const UpdateDeleteProduct = () => {
 
     const getProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/product/get-product/${productSlug}`);
+            const response = await axios.get(`${serverURI}/api/v1/product/get-product/${productSlug}`);
 
             if (response?.data?.success) {
                 toast.success(response?.data?.message);
@@ -84,7 +86,7 @@ const UpdateDeleteProduct = () => {
         console.log("Submitting....");
 
         try {
-            const response = await axios.put(`http://localhost:8000/api/v1/product/update-product/${productSlug}`,
+            const response = await axios.put(`${serverURI}/api/v1/product/update-product/${productSlug}`,
             productDetails,{
                 headers: {
                     Authorization: auth?.token || "",
@@ -109,7 +111,7 @@ const UpdateDeleteProduct = () => {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/v1/product/delete-product/${productSlug}`,
+            const response = await axios.delete(`${serverURI}/api/v1/product/delete-product/${productSlug}`,
             {
                 headers: {
                     Authorization: auth?.token || "",

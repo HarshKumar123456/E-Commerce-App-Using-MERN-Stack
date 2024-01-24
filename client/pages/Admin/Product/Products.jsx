@@ -6,13 +6,15 @@ import { Link } from "react-router-dom";
 import AdminMenu from "../AdminMenu";
 
 const Products = () => {
+    const serverURI = import.meta.env.VITE_SERVER_URI;
+
     const [products, setProducts] = useState(null);
 
     const getAllProducts = async () => {
         console.log("Getting all products");
 
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/product/get-all-products`);
+            const response = await axios.get(`${serverURI}/api/v1/product/get-all-products`);
             if (response?.data?.success) {
                 toast.success("Got all products....");
                 console.log(response?.data?.allProducts);
